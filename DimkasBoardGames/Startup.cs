@@ -30,9 +30,11 @@ namespace DimkasBoardGames
             // In production, the Angular files will be served from this directory
             // services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
+
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlite(Configuration.GetConnectionString("SqliteConnectionString"));
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnectionString"));
+
             });
             services.AddControllers();
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });

@@ -1,7 +1,7 @@
 ﻿using DimkasBoardGames.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DimkasBoardGames.Repositories
+namespace DimkasBoardGames
 {
     public class AppDbContext : DbContext
     {
