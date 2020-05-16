@@ -17,7 +17,7 @@ namespace DimkasBoardGames.Repositories
         }
 
 
-        public async Task<IEnumerable<BoardGame>> GetAllBoardGamesAsync()
+        public async Task<List<BoardGame>> GetAllBoardGamesAsync()
         {
             return await appDbContext.BoardGames.Include(game => game.Feedbacks).Include(game => game.BoardGameGenre)
                 .ToListAsync();

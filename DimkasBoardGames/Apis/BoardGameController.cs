@@ -26,7 +26,7 @@ namespace DimkasBoardGames.Apis
         // [NoCache]
         [ProducesResponseType(typeof(List<BoardGame>), 200)]
         [ProducesResponseType(typeof(ApiResponse), 400)]
-        public async Task<ActionResult> Customers()
+        public async Task<ActionResult> BoardGames()
         {
             try
             {
