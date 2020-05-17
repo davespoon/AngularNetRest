@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace DimkasBoardGames
 {
@@ -27,41 +28,32 @@ namespace DimkasBoardGames
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Add PostgreSQL support
-            //services.AddDbContext<CustomersDbContext>(options => {
-            //    options.UseNpgsql(Configuration.GetConnectionString("CustomersPostgresConnectionString"));
-            //});
-
-            //Add SQL Server support
-            //services.AddDbContext<CustomersDbContext>(options => {
-            //    options.UseSqlServer(Configuration.GetConnectionString("CustomersSqlServerConnectionString"));
-            //});
-
-            //Add SqLite support
+            // services.AddMvc();
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("SqliteConnectionString"));
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
             // Handle XSRF Name for Header
             services.AddAntiforgery(options => { options.HeaderName = "X-XSRF-TOKEN"; });
 
-            // services.AddSwaggerGen(options =>
-            // {
-            //     options.SwaggerDoc("v1", new OpenApiInfo
-            //     {
-            //         Version = "v1",
-            //         Title = "Application API",
-            //         Description = "Application Documentation",
-            //         Contact = new OpenApiContact {Name = "Dimka"},
-            //         License = new OpenApiLicense
-            //             {Name = "MIT", Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")}
-            //     });
-            // });
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Application API",
+                    Description = "Application Documentation",
+                    Contact = new OpenApiContact {Name = "Dimka"},
+                    License = new OpenApiLicense
+                        {Name = "MIT", Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")}
+                });
+            });
 
             services.AddCors(o => o.AddPolicy("AllowAllPolicy", options =>
             {
@@ -102,15 +94,10 @@ namespace DimkasBoardGames
                 app.UseSpaStaticFiles();
             }
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint
-            // app.UseSwagger();
+            app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
-            // Visit http://localhost:5000/swagger
-            // app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dimkas API V1"); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dimkas API V1"); });
 
-            // Manually handle setting XSRF cookie. Needed because HttpOnly
-            // has to be set to false so that Angular is able to read/access the cookie.
             app.Use((context, next) =>
             {
                 string path = context.Request.Path.Value;
@@ -131,8 +118,8 @@ namespace DimkasBoardGames
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "Client";
-
+                spa.Options.SourcePath = "ClientApp";
+            
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");

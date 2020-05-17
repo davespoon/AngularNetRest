@@ -6,7 +6,7 @@ namespace DimkasBoardGames.Repositories
 {
     public class DbInitializer
     {
-        private static Dictionary<string, BoardGameGenre> boardGameGenres;
+       private static Dictionary<string, BoardGameGenre> boardGameGenres;
 
         public static void Seed(AppDbContext context)
         {
