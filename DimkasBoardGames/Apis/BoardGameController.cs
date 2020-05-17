@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DimkasBoardGames.Apis
 {
-    [Route("api/boardGame")]
+    [Route("api/boardGames")]
     public class BoardGameController : Controller
     {
         private IBoardGameRepository boardGameRepository;

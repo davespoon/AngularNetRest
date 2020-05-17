@@ -1,14 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DimkasBoardGames.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DimkasBoardGames.Repositories
 {
     public class DbInitializer
     {
-       private static Dictionary<string, BoardGameGenre> boardGameGenres;
+        private static Dictionary<string, BoardGameGenre> boardGameGenres;
 
-        public static void Seed(AppDbContext context)
+
+        public void Seed(IServiceProvider provider)
+        {
+            using (var serviceScope = provider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                InsertData(context);
+            }
+        }
+
+        public static void InsertData(AppDbContext context)
         {
             if (!context.BoardGameGenres.Any())
             {

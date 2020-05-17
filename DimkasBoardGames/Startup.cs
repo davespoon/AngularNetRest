@@ -69,12 +69,12 @@ namespace DimkasBoardGames
 
             services.AddScoped<IBoardGameRepository, BoardGameRepository>();
             services.AddScoped<IBoardGameGenreRepository, BoardGameGenreRepository>();
+            services.AddTransient<DbInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-            IWebHostEnvironment env,
-            IAntiforgery antiforgery)
+            IWebHostEnvironment env, DbInitializer dbInitializer, IAntiforgery antiforgery)
         {
             if (env.IsDevelopment())
             {
@@ -119,12 +119,14 @@ namespace DimkasBoardGames
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-            
+
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            dbInitializer.Seed(app.ApplicationServices);
         }
     }
 }

@@ -3,14 +3,16 @@ using System;
 using DimkasBoardGames;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DimkasBoardGames.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200517130700_VirtualToBoardGamesGenre")]
+    partial class VirtualToBoardGamesGenre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,7 +101,7 @@ namespace DimkasBoardGames.Migrations
             modelBuilder.Entity("DimkasBoardGames.Models.BoardGame", b =>
                 {
                     b.HasOne("DimkasBoardGames.Models.BoardGameGenre", "BoardGameGenre")
-                        .WithMany()
+                        .WithMany("BoardGames")
                         .HasForeignKey("BoardGameGenreId");
                 });
 

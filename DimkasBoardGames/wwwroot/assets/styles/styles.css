@@ -78,7 +78,7 @@ th {
 }
 
 .card-header {
-    background-color:#027FF4;
+    background-color: #452f06;
     font-size:14pt;
     color:white;
     padding:5px;
@@ -135,7 +135,7 @@ a.navbar-brand {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    background-color: #027FF4;
+    background-color: #4b3000;
     background-image: none;
 }
 
