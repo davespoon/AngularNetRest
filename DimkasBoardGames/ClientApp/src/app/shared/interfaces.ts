@@ -10,6 +10,8 @@ export interface IBoardGame {
   imageFullUri: string;
   feedbacks: IFeedback[];
   boardGameGenre: IBoardGameGenre;
+  // orders: IOrder[];
+  // orderTotal?: number;
 }
 
 export interface IBoardGameGenre {
@@ -24,6 +26,13 @@ export interface IFeedback {
   message: string;
   boardGameId: string;
   boardGame: IBoardGame;
+}
+
+export interface IOrder {
+  product: string;
+  price: number;
+  quantity: number;
+  orderTotal?: number;
 }
 
 export interface IRouting {

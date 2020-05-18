@@ -127,6 +127,9 @@
       <TypeScriptCompile Include="ClientApp\src\app\boardGames\boardGames.component.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\core\core.module.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\core\ensureModuleLoadedOnceGuard.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\core\services\data-filter.service.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\core\services\sorter.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\core\services\trackby.service.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\shared\ensureModuleLoadedOnceGuard.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\shared\interfaces.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\shared\property-resolver.ts" />
