@@ -25,7 +25,7 @@ namespace DimkasBoardGames.Repositories
 
         public async Task<BoardGame> GetBoardGameByIdAsync(int id)
         {
-            return await appDbContext.BoardGames.Include(game => game.Feedbacks)
+            return await appDbContext.BoardGames.Include(game => game.Feedbacks).Include(game => game.BoardGameGenre)
                 .FirstOrDefaultAsync(game => game.BoardGameId == id);
         }
 

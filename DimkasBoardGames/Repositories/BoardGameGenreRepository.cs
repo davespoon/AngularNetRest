@@ -1,18 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DimkasBoardGames.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DimkasBoardGames.Repositories
 {
     public class BoardGameGenreRepository : IBoardGameGenreRepository
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly AppDbContext appDbContext;
 
         public BoardGameGenreRepository(AppDbContext appDbContext)
         {
-            _appDbContext = appDbContext;
+            this.appDbContext = appDbContext;
         }
 
 
-        public IEnumerable<BoardGameGenre> Genres => _appDbContext.BoardGameGenres;
+        public async Task<IEnumerable<BoardGameGenre>> GetGenresAsync()
+        {
+            return await appDbContext.BoardGameGenres.OrderBy(genre => genre.GenreName).ToListAsync();
+        }
     }
 }
