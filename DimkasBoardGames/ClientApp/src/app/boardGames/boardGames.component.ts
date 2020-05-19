@@ -15,8 +15,8 @@ export class BoardGamesComponent implements OnInit {
   boardGames: IBoardGame[] = [];
   filteredBoardGames: IBoardGame[] = [];
 
-  // totalRecords: number = 0;
-  totalRecords: number = 2;
+  totalRecords: number = 0;
+  // totalRecords: number = 2;
   pageSize: number = 10;
 
   constructor(private router: Router,
@@ -32,7 +32,7 @@ export class BoardGamesComponent implements OnInit {
 
   filterChanged(filterText: string) {
     if (filterText && this.boardGames) {
-      let props = ['title', 'boardGameGenre', 'shortDescription'];
+      let props = ['title', 'boardGameGenre.genreName', 'shortDescription'];
       this.filteredBoardGames = this.dataFilter.filter(this.boardGames, props, filterText);
     } else {
       this.filteredBoardGames = this.boardGames;
