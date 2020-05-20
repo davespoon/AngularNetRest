@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DimkasBoardGames.Repositories
 {
-    public class BoardGameRepository : IBoardGameRepository
+    public class BoardGamesRepository : IBoardGameRepository
     {
         private readonly AppDbContext appDbContext;
 
 
-        public BoardGameRepository(AppDbContext appDbContext)
+        public BoardGamesRepository(AppDbContext appDbContext)
         {
             this.appDbContext = appDbContext;
         }
@@ -48,6 +48,19 @@ namespace DimkasBoardGames.Repositories
             appDbContext.BoardGames.FirstOrDefault(game => game.BoardGameId == boardGame.BoardGameId)?.Feedbacks
                 .Add(feedback);
             return await appDbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<PagingResult<BoardGame>> GetBoardGamesPageAsync(int skip, int take)
+        {
+            var totalRecords = await appDbContext.BoardGames.CountAsync();
+            var boardGames = await appDbContext.BoardGames
+                .OrderBy(c => c.Title)
+                .Include(c => c.Feedbacks)
+                .Include(c => c.BoardGameGenre)
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
+            return new PagingResult<BoardGame>(boardGames, totalRecords);
         }
     }
 }

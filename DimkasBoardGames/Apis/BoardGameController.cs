@@ -12,13 +12,13 @@ namespace DimkasBoardGames.Apis
     [Route("api/boardGames")]
     public class BoardGameController : Controller
     {
-        private IBoardGameRepository boardGameRepository;
+        private IBoardGameRepository boardGamesRepository;
         private ILogger logger;
 
 
-        public BoardGameController(IBoardGameRepository boardGameRepo, ILoggerFactory loggerFactory)
+        public BoardGameController(IBoardGameRepository boardGamesRepo, ILoggerFactory loggerFactory)
         {
-            boardGameRepository = boardGameRepo;
+            boardGamesRepository = boardGamesRepo;
             logger = loggerFactory.CreateLogger(nameof(BoardGameController));
         }
 
@@ -31,7 +31,7 @@ namespace DimkasBoardGames.Apis
         {
             try
             {
-                var boardGames = await boardGameRepository.GetAllBoardGamesAsync();
+                var boardGames = await boardGamesRepository.GetAllBoardGamesAsync();
                 return Ok(boardGames);
             }
             catch (Exception e)
@@ -50,12 +50,32 @@ namespace DimkasBoardGames.Apis
         {
             try
             {
-                var boardGame = await boardGameRepository.GetBoardGameByIdAsync(id);
+                var boardGame = await boardGamesRepository.GetBoardGameByIdAsync(id);
                 return Ok(boardGame);
             }
             catch (Exception e)
             {
                 logger.LogError(e.Message);
+                return BadRequest(new ApiResponse {Status = false});
+            }
+        }
+
+        // GET api/boardGames/page/10/10
+        [HttpGet("page/{skip}/{take}")]
+        [NoCache]
+        [ProducesResponseType(typeof(List<BoardGame>), 200)]
+        [ProducesResponseType(typeof(ApiResponse), 400)]
+        public async Task<ActionResult> BoardGamesPage(int skip, int take)
+        {
+            try
+            {
+                var pagingResult = await boardGamesRepository.GetBoardGamesPageAsync(skip, take);
+                Response.Headers.Add("X-InlineCount", pagingResult.TotalRecords.ToString());
+                return Ok(pagingResult.Records);
+            }
+            catch (Exception exp)
+            {
+                logger.LogError(exp.Message);
                 return BadRequest(new ApiResponse {Status = false});
             }
         }

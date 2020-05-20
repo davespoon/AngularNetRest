@@ -4,7 +4,7 @@ import {HttpClient, HttpResponse, HttpErrorResponse} from '@angular/common/http'
 import {Observable} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 
-import {IBoardGame, IBoardGameGenre, IFeedback, IPagedResults} from '../../shared/interfaces';
+import {IBoardGame, IBoardGameGenre, IBoardGameResponse, IFeedback, IPagedResults} from '../../shared/interfaces';
 import {environment} from '../../../environments/environment.prod';
 
 @Injectable({
@@ -30,19 +30,19 @@ export class DataService {
       );
   }
 
-  getBoardGamesResult(): Observable<IPagedResults<IBoardGame[]>> {
-    return this.http.get<IBoardGame[]>(this.baseBoardGamesUrl)
-      .pipe(
-        map(boardGames => {
-          // this.calculateBoardGamesOrderTotal(boardGames);
-          return {
-            results: boardGames,
-            totalRecords: 5
-          };
-        }),
-        catchError(this.handleError)
-      );
-  }
+  // getBoardGamesResult(): Observable<IPagedResults<IBoardGame[]>> {
+  //   return this.http.get<IBoardGame[]>(this.baseBoardGamesUrl)
+  //     .pipe(
+  //       map(boardGames => {
+  //         // this.calculateBoardGamesOrderTotal(boardGames);
+  //         return {
+  //           results: boardGames,
+  //           totalRecords: 5
+  //         };
+  //       }),
+  //       catchError(this.handleError)
+  //     );
+  // }
 
 
   getBoardGamesPage(page: number, pageSize: number): Observable<IPagedResults<IBoardGame[]>> {
@@ -58,6 +58,50 @@ export class DataService {
             totalRecords: totalRecords
           };
         }),
+        catchError(this.handleError)
+      );
+  }
+
+
+  getBoardGame(boardGameId: string): Observable<IBoardGame> {
+    return this.http.get<IBoardGame>(this.baseBoardGamesUrl + '/' + boardGameId)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getBoardGameGenres(): Observable<IBoardGameGenre[]> {
+    return this.http.get<IBoardGameGenre[]>(this.baseBoardGameGenresUlr)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  updateBoardGame(boardGame: IBoardGame): Observable<IBoardGame> {
+    return this.http.put<IBoardGameResponse>(this.baseBoardGamesUrl + '/' + boardGame.boardGameId, boardGame)
+      .pipe(
+        map((data) => {
+          console.log('updateBoardGame status: ' + data.status);
+          return data.boardGame;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  insertBoardGame(boardGame: IBoardGame): Observable<IBoardGame> {
+    return this.http.post<IBoardGameResponse>(this.baseBoardGamesUrl, boardGame)
+      .pipe(
+        map((data) => {
+          console.log('insertBoardGame status: ' + data.status);
+          return data.boardGame;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteBoardGame(boardGameId: string): Observable<boolean> {
+    return this.http.delete<boolean>(this.baseBoardGamesUrl + '/' + boardGameId)
+      .pipe(
         catchError(this.handleError)
       );
   }

@@ -67,7 +67,7 @@ namespace DimkasBoardGames
                     .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                     .WithHeaders("accept", "content-type", "origin", "X-Inline-Count")));
 
-            services.AddScoped<IBoardGameRepository, BoardGameRepository>();
+            services.AddScoped<IBoardGameRepository, BoardGamesRepository>();
             services.AddScoped<IBoardGameGenreRepository, BoardGameGenreRepository>();
             services.AddTransient<DbInitializer>();
         }

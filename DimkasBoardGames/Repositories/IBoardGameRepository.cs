@@ -11,5 +11,6 @@ namespace DimkasBoardGames.Repositories
         Task<bool> AddNewGame(BoardGame boardGame);
         Task<bool> DeleteGame(BoardGame boardGame);
         Task<bool> AddNewFeedback(BoardGame boardGame, Feedback feedback);
+        Task<PagingResult<BoardGame>> GetBoardGamesPageAsync(int skip, int take);
     }
 }

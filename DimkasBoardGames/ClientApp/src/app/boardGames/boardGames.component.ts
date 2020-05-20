@@ -26,8 +26,8 @@ export class BoardGamesComponent implements OnInit {
 
   ngOnInit() {
     this.title = 'Board Games';
-    // this.getBoardGamesPage(1);
-    this.getBoardGames();
+    this.getBoardGamesPage(1);
+    // this.getBoardGames();
   }
 
   filterChanged(filterText: string) {
@@ -53,14 +53,14 @@ export class BoardGamesComponent implements OnInit {
         () => console.log('getBoardGamesPage() retrieved board games'));
   }
 
-  getBoardGames() {
-    this.dataService.getBoardGamesResult()
-      .subscribe((response: IPagedResults<IBoardGame[]>) => {
-          this.boardGames = this.filteredBoardGames = response.results;
-          this.totalRecords = response.totalRecords;
-        },
-        (err: any) => console.log(err),
-        () => console.log('getBoardGamesPage() retrieved board games'));
-  }
+  // getBoardGames() {
+  //   this.dataService.getBoardGamesResult()
+  //     .subscribe((response: IPagedResults<IBoardGame[]>) => {
+  //         this.boardGames = this.filteredBoardGames = response.results;
+  //         this.totalRecords = response.totalRecords;
+  //       },
+  //       (err: any) => console.log(err),
+  //       () => console.log('getBoardGamesPage() retrieved board games'));
+  // }
 
 }
