@@ -5,7 +5,8 @@ namespace DimkasBoardGames.Models
 {
     public class BoardGame
     {
-        public int BoardGameId { get; set; }
+            
+         public int BoardGameId { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Game Title is required")]

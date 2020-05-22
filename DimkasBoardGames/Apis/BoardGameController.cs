@@ -79,5 +79,34 @@ namespace DimkasBoardGames.Apis
                 return BadRequest(new ApiResponse {Status = false});
             }
         }
+
+        [HttpPost]
+        // [ValidateAntiForgeryToken]
+        [ProducesResponseType(typeof(ApiResponse), 201)]
+        [ProducesResponseType(typeof(ApiResponse), 400)]
+        public async Task<ActionResult> CreateBoardGame([FromBody] BoardGame boardGame)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse {Status = false, ModelState = ModelState});
+            }
+
+            try
+            {
+                var newBoardGame = await boardGamesRepository.InsertBoardGameAsync(boardGame);
+                if (newBoardGame == null)
+                {
+                    return BadRequest(new ApiResponse {Status = false});
+                }
+
+                return CreatedAtRoute("GetBoardGameRoute", new {id = newBoardGame.BoardGameId},
+                    new ApiResponse {Status = true, BoardGame = newBoardGame});
+            }
+            catch (Exception exp)
+            {
+                logger.LogError(exp.Message);
+                return BadRequest(new ApiResponse {Status = false});
+            }
+        }
     }
 }

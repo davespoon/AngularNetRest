@@ -4,12 +4,12 @@ export interface IBoardGame {
   boardGameId?: string;
   title: string;
   shortDescription: string;
-  longDescription: string;
-  price: number;
-  imageThumbnailUri: string;
-  imageFullUri: string;
-  feedbacks: IFeedback[];
-  boardGameGenre: IBoardGameGenre;
+  longDescription?: string;
+  price?: number;
+  imageThumbnailUri?: string;
+  imageFullUri?: string;
+  feedbacks?: IFeedback[];
+  boardGameGenre?: IBoardGameGenre;
   // orders: IOrder[];
   // orderTotal?: number;
 }

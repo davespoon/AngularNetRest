@@ -8,7 +8,7 @@ namespace DimkasBoardGames.Repositories
     {
         Task<List<BoardGame>> GetAllBoardGamesAsync();
         Task<BoardGame> GetBoardGameByIdAsync(int id);
-        Task<bool> AddNewGame(BoardGame boardGame);
+        Task<BoardGame> InsertBoardGameAsync(BoardGame boardGame);
         Task<bool> DeleteGame(BoardGame boardGame);
         Task<bool> AddNewFeedback(BoardGame boardGame, Feedback feedback);
         Task<PagingResult<BoardGame>> GetBoardGamesPageAsync(int skip, int take);

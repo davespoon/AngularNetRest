@@ -1,19 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DimkasBoardGames.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DimkasBoardGames.Repositories
 {
     public class BoardGamesRepository : IBoardGameRepository
     {
         private readonly AppDbContext appDbContext;
+        private readonly ILogger logger;
 
-
-        public BoardGamesRepository(AppDbContext appDbContext)
+        public BoardGamesRepository(AppDbContext appDbContext, ILoggerFactory loggerFactory)
         {
             this.appDbContext = appDbContext;
+            this.logger = loggerFactory.CreateLogger(nameof(BoardGamesRepository));
         }
 
 
@@ -30,11 +33,19 @@ namespace DimkasBoardGames.Repositories
         }
 
 
-        //todo change hardcored true
-        public async Task<bool> AddNewGame(BoardGame boardGame)
+        public async Task<BoardGame> InsertBoardGameAsync(BoardGame boardGame)
         {
             appDbContext.BoardGames.Add(boardGame);
-            return await appDbContext.SaveChangesAsync() > 0;
+            try
+            {
+                await appDbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"Error in {nameof(InsertBoardGameAsync)}: " + e.Message);
+            }
+
+            return boardGame;
         }
 
         public async Task<bool> DeleteGame(BoardGame boardGame)
