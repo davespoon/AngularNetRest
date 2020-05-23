@@ -5,8 +5,7 @@ namespace DimkasBoardGames.Models
 {
     public class BoardGame
     {
-            
-         public int BoardGameId { get; set; }
+        public int BoardGameId { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Game Title is required")]
@@ -19,6 +18,7 @@ namespace DimkasBoardGames.Models
         public string ImageFullUri { get; set; }
 
         public List<Feedback> Feedbacks { get; set; }
-        public virtual BoardGameGenre BoardGameGenre { get; set; }
+        public BoardGameGenre BoardGameGenre { get; set; }
+        public int BoardGameGenreId { get; set; }
     }
 }

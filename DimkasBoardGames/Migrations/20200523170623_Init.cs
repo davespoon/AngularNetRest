@@ -32,7 +32,7 @@ namespace DimkasBoardGames.Migrations
                     Price = table.Column<decimal>(nullable: false),
                     ImageThumbnailUri = table.Column<string>(nullable: true),
                     ImageFullUri = table.Column<string>(nullable: true),
-                    BoardGameGenreId = table.Column<int>(nullable: true)
+                    BoardGameGenreId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,7 +42,7 @@ namespace DimkasBoardGames.Migrations
                         column: x => x.BoardGameGenreId,
                         principalTable: "BoardGameGenres",
                         principalColumn: "BoardGameGenreId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
