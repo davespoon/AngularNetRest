@@ -14,11 +14,13 @@ namespace DimkasBoardGames.Models
         public string ShortDescription { get; set; }
         [StringLength(5000)] public string LongDescription { get; set; }
         public decimal Price { get; set; }
-        public string ImageThumbnailUri { get; set; }
-        public string ImageFullUri { get; set; }
+        // public string ImageThumbnailUri { get; set; }
+        // public string ImageFullUri { get; set; }
 
         public List<Feedback> Feedbacks { get; set; }
         public BoardGameGenre BoardGameGenre { get; set; }
         public int BoardGameGenreId { get; set; }
+        public Image Image { get; set; }
+        public int ImageId { get; set; }
     }
 }

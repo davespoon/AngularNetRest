@@ -10,14 +10,27 @@ namespace DimkasBoardGames.Migrations
                 name: "BoardGameGenres",
                 columns: table => new
                 {
-                    BoardGameGenreId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     GenreName = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BoardGameGenres", x => x.BoardGameGenreId);
+                    table.PrimaryKey("PK_BoardGameGenres", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,9 +43,8 @@ namespace DimkasBoardGames.Migrations
                     ShortDescription = table.Column<string>(nullable: true),
                     LongDescription = table.Column<string>(maxLength: 5000, nullable: true),
                     Price = table.Column<decimal>(nullable: false),
-                    ImageThumbnailUri = table.Column<string>(nullable: true),
-                    ImageFullUri = table.Column<string>(nullable: true),
-                    BoardGameGenreId = table.Column<int>(nullable: false)
+                    BoardGameGenreId = table.Column<int>(nullable: false),
+                    ImageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +53,13 @@ namespace DimkasBoardGames.Migrations
                         name: "FK_BoardGames_BoardGameGenres_BoardGameGenreId",
                         column: x => x.BoardGameGenreId,
                         principalTable: "BoardGameGenres",
-                        principalColumn: "BoardGameGenreId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BoardGames_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -72,6 +90,11 @@ namespace DimkasBoardGames.Migrations
                 column: "BoardGameGenreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BoardGames_ImageId",
+                table: "BoardGames",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_BoardGameId",
                 table: "Feedbacks",
                 column: "BoardGameId");
@@ -87,6 +110,9 @@ namespace DimkasBoardGames.Migrations
 
             migrationBuilder.DropTable(
                 name: "BoardGameGenres");
+
+            migrationBuilder.DropTable(
+                name: "Images");
         }
     }
 }

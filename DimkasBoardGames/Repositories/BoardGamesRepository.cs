@@ -22,13 +22,19 @@ namespace DimkasBoardGames.Repositories
 
         public async Task<List<BoardGame>> GetAllBoardGamesAsync()
         {
-            return await appDbContext.BoardGames.Include(game => game.Feedbacks).Include(game => game.BoardGameGenre)
+            return await appDbContext.BoardGames
+                .Include(game => game.Feedbacks)
+                .Include(game => game.BoardGameGenre)
+                .Include(game => game.Image)
                 .ToListAsync();
         }
 
         public async Task<BoardGame> GetBoardGameByIdAsync(int id)
         {
-            return await appDbContext.BoardGames.Include(game => game.Feedbacks).Include(game => game.BoardGameGenre)
+            return await appDbContext.BoardGames
+                .Include(game => game.Feedbacks)
+                .Include(game => game.BoardGameGenre)
+                .Include(game => game.Image)
                 .FirstOrDefaultAsync(game => game.BoardGameId == id);
         }
 
@@ -68,6 +74,7 @@ namespace DimkasBoardGames.Repositories
                 .OrderBy(c => c.Title)
                 .Include(c => c.Feedbacks)
                 .Include(c => c.BoardGameGenre)
+                .Include(game => game.Image)
                 .Skip(skip)
                 .Take(take)
                 .ToListAsync();

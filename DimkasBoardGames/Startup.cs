@@ -32,6 +32,7 @@ namespace DimkasBoardGames
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("SqliteConnectionString"));
+                // options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnectionString"));
             });
 
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -69,6 +70,7 @@ namespace DimkasBoardGames
 
             services.AddScoped<IBoardGameRepository, BoardGamesRepository>();
             services.AddScoped<IBoardGameGenreRepository, BoardGameGenreRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
             services.AddTransient<DbInitializer>();
         }
 

@@ -6,13 +6,21 @@ export interface IBoardGame {
   shortDescription: string;
   longDescription?: string;
   price?: number;
-  imageThumbnailUri?: string;
-  imageFullUri?: string;
+  // imageThumbnailUri?: string;
+  // imageFullUri?: string;
   feedbacks?: IFeedback[];
   boardGameGenre?: IBoardGameGenre;
-  boardGameGenreId: string
+  boardGameGenreId: string;
+  image: IImage;
+  imageId: string;
   // orders: IOrder[];
   // orderTotal?: number;
+}
+
+export interface IImage {
+  id: string;
+  name: string;
+  imageFile: File;
 }
 
 export interface IBoardGameGenre {

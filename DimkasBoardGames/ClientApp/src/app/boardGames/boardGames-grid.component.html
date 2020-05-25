@@ -16,7 +16,7 @@
           </thead>
           <tbody>
           <tr *ngFor="let boardGame of boardGames;trackBy:trackby.boardGame">
-            <td><img src="assets/images/{{boardGame.imageThumbnailUri}}"
+            <td><img src="assets/images/{{boardGame.image.name}}"
                      class="card-image" alt="Board Game Img"/></td>
             <td><a [routerLink]="['/boardGames',boardGame.boardGameId]">{{ boardGame.title | capitalize }}</a></td>
             <td>{{ boardGame.boardGameGenre.genreName | capitalize }}</td>

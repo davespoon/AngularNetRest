@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 import {DataFilterService} from '../core/services/data-filter.service';
 import {DataService} from '../core/services/data.service';
-import {IBoardGame, IBoardGameGenre, IPagedResults} from '../shared/interfaces';
+import {IBoardGame, IBoardGameGenre, IPagedResults, IImage} from '../shared/interfaces';
 
 @Component({
   selector: 'boardGames',

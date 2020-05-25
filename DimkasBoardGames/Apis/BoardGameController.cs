@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using DimkasBoardGames.Infrastructure;
 using DimkasBoardGames.Models;
 using DimkasBoardGames.Repositories;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace DimkasBoardGames.Apis
@@ -13,13 +17,17 @@ namespace DimkasBoardGames.Apis
     public class BoardGameController : Controller
     {
         private IBoardGameRepository boardGamesRepository;
+        private IImageRepository imageRepository;
         private ILogger logger;
+        private IHostEnvironment hostEnvironment;
 
 
-        public BoardGameController(IBoardGameRepository boardGamesRepo, ILoggerFactory loggerFactory)
+        public BoardGameController(IBoardGameRepository boardGamesRepo, ILoggerFactory loggerFactory,
+            IHostEnvironment hostEnvironment)
         {
             boardGamesRepository = boardGamesRepo;
             logger = loggerFactory.CreateLogger(nameof(BoardGameController));
+            this.hostEnvironment = hostEnvironment;
         }
 
 
@@ -107,6 +115,57 @@ namespace DimkasBoardGames.Apis
                 logger.LogError(exp.Message);
                 return BadRequest(new ApiResponse {Status = false});
             }
+        }
+
+        // [HttpPost("images/{boardGameId}", Name = "UploadImage")]
+        // // [ValidateAntiForgeryToken]
+        // [ProducesResponseType(typeof(ApiResponse), 201)]
+        // [ProducesResponseType(typeof(ApiResponse), 400)]
+        // public async Task<ActionResult> UploadBoardGameImage([FromForm] IFormFile imageFile,
+        //     [FromRoute] int boardGameId)
+        // {
+        //     var boardGame = await boardGamesRepository.GetBoardGameByIdAsync(boardGameId);
+        //
+        //     var extension = Path.GetExtension(imageFile.FileName);
+        //     var imageName = boardGame.Title + DateTime.UtcNow.Ticks + extension;
+        //
+        //     var filePath = Path.Combine("ClientApp\\src\\assets\\images", imageName);
+        //
+        //     if (imageFile.Length > 0)
+        //     {
+        //         using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //         {
+        //             await imageFile.CopyToAsync(fileStream);
+        //         }
+        //     }
+        //
+        //     return Ok();
+        // }
+
+        [HttpPost("images/{boardGameId}", Name = "UploadImage")]
+        // [ValidateAntiForgeryToken]
+        [ProducesResponseType(typeof(ApiResponse), 201)]
+        [ProducesResponseType(typeof(ApiResponse), 400)]
+        public async Task<ActionResult> UploadBoardGameImage([FromForm] Image image,
+            [FromRoute] int boardGameId)
+        {
+            var boardGame = await boardGamesRepository.GetBoardGameByIdAsync(boardGameId);
+
+            var extension = Path.GetExtension(image.Name);
+            var imageName = boardGame.Title + DateTime.UtcNow.Ticks + extension;
+            var filePath = Path.Combine("ClientApp\\src\\assets\\images", imageName);
+
+            if (image.ImageFile.Length > 0)
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.ImageFile.CopyToAsync(fileStream);
+                }
+            }
+
+            await imageRepository.InsertImageAsync(image);
+
+            return Ok();
         }
     }
 }

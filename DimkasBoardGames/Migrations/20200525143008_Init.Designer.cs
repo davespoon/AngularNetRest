@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DimkasBoardGames.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200523170623_Init")]
+    [Migration("20200525143008_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,8 @@ namespace DimkasBoardGames.Migrations
                     b.Property<int>("BoardGameGenreId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ImageFullUri")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImageThumbnailUri")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ImageId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LongDescription")
                         .HasColumnType("TEXT")
@@ -51,12 +48,14 @@ namespace DimkasBoardGames.Migrations
 
                     b.HasIndex("BoardGameGenreId");
 
+                    b.HasIndex("ImageId");
+
                     b.ToTable("BoardGames");
                 });
 
             modelBuilder.Entity("DimkasBoardGames.Models.BoardGameGenre", b =>
                 {
-                    b.Property<int>("BoardGameGenreId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -66,7 +65,7 @@ namespace DimkasBoardGames.Migrations
                     b.Property<string>("GenreName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("BoardGameGenreId");
+                    b.HasKey("Id");
 
                     b.ToTable("BoardGameGenres");
                 });
@@ -97,11 +96,31 @@ namespace DimkasBoardGames.Migrations
                     b.ToTable("Feedbacks");
                 });
 
+            modelBuilder.Entity("DimkasBoardGames.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("DimkasBoardGames.Models.BoardGame", b =>
                 {
                     b.HasOne("DimkasBoardGames.Models.BoardGameGenre", "BoardGameGenre")
                         .WithMany()
                         .HasForeignKey("BoardGameGenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DimkasBoardGames.Models.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

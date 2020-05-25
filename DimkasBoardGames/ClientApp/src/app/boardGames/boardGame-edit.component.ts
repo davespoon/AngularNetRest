@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 
 import {DataService} from '../core/services/data.service';
-import {IBoardGame, IBoardGameGenre, IFeedback} from '../shared/interfaces';
+import {IBoardGame, IBoardGameGenre, IFeedback, IImage} from '../shared/interfaces';
 
 @Component({
   selector: 'boardGame-edit',
@@ -11,8 +11,9 @@ import {IBoardGame, IBoardGameGenre, IFeedback} from '../shared/interfaces';
 export class BoardGameEditComponent implements OnInit {
 
   boardGame: IBoardGame = {
+    boardGameGenreId: '', image: undefined, imageId: '',
     boardGameGenre: undefined,
-    feedbacks: [], imageFullUri: '', imageThumbnailUri: '', longDescription: '', price: 0,
+    feedbacks: [], longDescription: '', price: 0,
     title: '',
     shortDescription: ''
   };
