@@ -5,6 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {BoardGamesComponent} from './boardGames/boardGames.component';
 import {BoardGamesGridComponent} from './boardGames/boardGames-grid.component';
 import {BoardGameEditComponent} from './boardGames/boardGame-edit.component';
+
 // import {BoardGameEditReactiveComponent} from './boardGames/boardGame-edit-reactive.component';
 
 const routes: Routes = [
